@@ -1,5 +1,3 @@
-<a href="https://khulnasoft.com" alt="khulnasoft"><img width="189px" src="https://khulnasoft.com/assets/img/logo.svg"></a>
-
 # Khulnasoft GoLand Plugin
 
 ![Build](https://github.com/khulnasoft/intellij-plugin/workflows/Build/badge.svg)
