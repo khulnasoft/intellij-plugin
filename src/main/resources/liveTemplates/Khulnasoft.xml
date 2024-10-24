@@ -1,0 +1,9 @@
+<templateSet group="Khulnasoft">
+  <template name="newapi" value="type $ApiName$Params struct {}&#10;&#10;type $ApiName$Response struct {}&#10;&#10;//khulnasoft:api $ApiVisibility$&#10;func $ApiName$(ctx context.Context, p *$ApiName$Params) (*$ApiName$Response, error) {&#10;    return nil, nil&#10;}" shortcut="SPACE" description="Creates an Khulnasoft API definition and types" toReformat="true" toShortenFQNames="true">
+    <variable name="ApiName" expression="" defaultValue="capitalize(fileNameWithoutExtension())" alwaysStopAt="true" />
+    <variable name="ApiVisibility" expression="enum(&quot;public&quot;, &quot;private&quot;, &quot;auth&quot;, &quot;raw&quot;)" defaultValue="public" alwaysStopAt="true" />
+    <context>
+      <option name="KHULNASOFT_GO_FILE" value="true"/>
+    </context>
+  </template>
+</templateSet>

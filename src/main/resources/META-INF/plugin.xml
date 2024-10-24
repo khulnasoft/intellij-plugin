@@ -1,18 +1,60 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.nxpkg.intellijplugin</id>
-    <name>intellij-plugin</name>
-    <vendor>nxpkg</vendor>
+    <id>dev.khulnasoft.intellij</id>
+    <name>Khulnasoft</name>
+    <version>1.0.0</version>
+    <vendor url="https://khulnasoft.com" email="support@khulnasoft.com">Khulnasoft</vendor>
+    <description>
+    <![CDATA[
+        Provides support for the <a href="https://khulnasoft.com">Khulnasoft Backend Engine</a>.
+
+        <p>
+        This plugin allows you to run unit tests directly from within GoLand with full support
+        for all of Khulnasoft's features.
+        </p>
+    ]]>
+    </description>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.go</depends>
+    <depends>com.intellij.database</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
-
-    <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.nxpkg.intellijplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+    <extensions defaultExtensionNs="com.intellij.database">
+        <dataSourceDetector implementation="dev.khulnasoft.intellij.sqldb.Detector" />
     </extensions>
 
-    <applicationListeners>
-        <listener class="com.github.nxpkg.intellijplugin.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+    <extensions defaultExtensionNs="com.intellij">
+        <defaultLiveTemplates file="/liveTemplates/Khulnasoft.xml"/>
+        <liveTemplateContext
+                contextId="KHULNASOFT_GO_FILE"
+                implementation="dev.khulnasoft.intellij.liveTemplates.KhulnasoftContext"/>
+
+        <fileType
+                name="Khulnasoft App Manifest"
+                implementationClass="dev.khulnasoft.intellij.appfile.KhulnasoftAppFileType"
+                fieldName="INSTANCE"
+                language="JSON5"
+                fileNamesCaseInsensitive="khulnasoft.app"
+            />
+
+        <requiredForSmartModeStartupActivity implementation="dev.khulnasoft.intellij.StartupActivity" />
+
+        <applicationService serviceImplementation="dev.khulnasoft.intellij.settings.SettingsState" />
+
+        <annotator
+            language="go"
+            implementationClass="dev.khulnasoft.intellij.annotators.ApiDecls"
+            />
+
+        <applicationConfigurable
+                parentId="tools"
+                instance="dev.khulnasoft.intellij.settings.Settings"
+                id="dev.khulnasoft.intellij.settings.Settings"
+                displayName="Khulnasoft"/>
+        />
+    </extensions>
+
+    <extensions defaultExtensionNs="com.goide">
+        <runConfigurationExtension implementation="dev.khulnasoft.intellij.runconfig.KhulnasoftRunConfig" order="first" />
+    </extensions>
 </idea-plugin>
